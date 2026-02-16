@@ -2,43 +2,46 @@ import React, { useRef } from 'react';
 
 const WithUseRef = () => {
 
-  const nameRef = useRef();
-  const emailRef = useRef();
-  const phoneRef = useRef();
+  const formRef = useRef();
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
+
     const formData = {
-      name: nameRef.current.value,
-      email: emailRef.current.value,
-      phone: phoneRef.current.value
+      name: e.target.name.value,
+      email: e.target.email.value,
+      phone: e.target.phone.value
     };
 
     localStorage.setItem("formData", JSON.stringify(formData));
     alert("Data Saved!");
+
+    // ✅ Reset entire form
+    formRef.current.reset();
   }
 
   return (
     <>
-      <form>
+      <form ref={formRef} onSubmit={handleSubmit}>
         <input
           type="text"
+          name="name"
           placeholder="Enter your name"
-          ref={nameRef}
         />
 
         <input
           type="text"
+          name="email"
           placeholder="Enter your email"
-          ref={emailRef}
         />
 
         <input
           type="text"
+          name="phone"
           placeholder="Enter your phone"
-          ref={phoneRef}
         />
 
-        <button type="button" onClick={handleSubmit}>
+        <button type="submit">
           SUBMIT
         </button>
       </form>
